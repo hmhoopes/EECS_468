@@ -1,0 +1,129 @@
+<!-- Declares doctype as html doc for browser -->
+<!DOCTYPE html>
+
+<!-- Begins html block to contain html code -->
+<html>
+    
+    <!-- Begins body block that contains document info -->
+    <body>
+        <!-- Indicates the solution is for 2.1 -->
+        <p>2.1 Looping Traingle</p>
+        <!-- Uses id LoopTriangle to get output from function triangle() for problem 2.1 -->
+        <p id="LoopTriangle"></p>
+
+        <!-- Indicates the solution is for 2.2 -->
+        <p>2.2 FizzBuzz</p>
+        <!-- Uses id FizzBuzz to get output from function fizz() for problem 2.2 -->
+        <p id="FizzBuzz"></p>
+
+        <!-- Indicates the solution is for 2.3 -->
+        <p>2.3 n-by-n grid</p>
+        <!-- Uses id 8by8 to get output from function grid(8) for problem 2.3 -->
+        <p id="8by8"></p>
+        <!-- Uses id 14by14 to get output from function grid(14) for problem 2.3 -->
+        <p id="14by14"></p>
+
+        <!-- Begins block containing JS functions -->
+        <script>
+
+            //Function declaration for solution to 2.1
+            function triangle(){
+                //Initialize an empty string to store output
+                let out = "";
+                //Declares a loop that iterates 10 times, and adds an 'x' to a string with each iteration
+                for (let i = "x"; i.length <= 10; i += "x"){
+                    //Adds i to the output with a breakline afterwards. This achieves the triangle output because the 1st run
+                    //will have 1 x, the 2nd will have 2 x's, ... , and the 10th will have 10 x's
+                    out += i + "<br>";
+                }
+                //Stores the output in element with id 'LoopTriangle'
+                document.getElementById("LoopTriangle").innerHTML = out;
+            }
+
+            //Function declaration for buzz, used for solution to 2.2
+            function buzz(elem){
+                //The following three lines check if elem is divisible by 4 and 7, and then appends corresponding output 
+                if (elem % 4 == 0 && elem %7 == 0){
+                    return "Divisible by both 4 and 7<br>";
+                }
+
+                //The following three lines check if elem is divisible by 4 but not 7, and then appends corresponding output 
+                else if (elem % 4 == 0){
+                    return "Divisible by 4<br>";
+                }
+
+                //The following three lines check if elem is divisible by 7 but not 4, and then appends corresponding output 
+                else if (elem % 7 == 0){
+                    return "Divisble by 7, but not 4<br>";
+                }
+
+                //The following three lines check if elem isn't divisible by 4 or 7, and then appends corresponding output 
+                else{
+                    return `${elem}<br>`;
+                }
+            }
+
+            //Function declaration for fizz, used for solution 2.2
+            function fizz(){
+                //This uses a map and Array(100).keys() to transform array [0,...,99] to [1,...,100]
+                let nums = [...Array(100).keys()].map(i => i+1);
+
+                //Uses buzz funtion in a map to transform [1,...,100] into a list of the output from buzz ([buzz(1), ..., buzz(100)])
+                let strings = nums.map(buzz);
+
+                //Uses reduce function to combine every element of strings into a single string
+                let out = strings.reduce( (total, elem) => total + elem);
+
+                //Stores the output string in element with id 'FizzBuzz'
+                document.getElementById("FizzBuzz").innerHTML = out;
+            }
+
+            //Function declaration for grid, used for solution to 2.3
+            function grid(n){
+                //Initializes output string that begins with string indicating value of argument n to user
+                let out = `size = ${n}<br>`;
+
+                //Initializes a loop that iterates n times, beginning with 1
+                for (let j = 1; j <= n; j++){
+
+                    //Initializes a loop that iterates n times, beginning with 1
+                    for (let i = 1; i <= n; i++){
+
+                            //The following three lines checks if (i+j+1) is even, and stores * in the output if so. 
+                            //This achieves the alternating effect of the * characters between each line
+                            if ((i+j+1) % 2 == 0){
+                               out += "*";
+                            }
+
+                            //The following three lines stores " " in the output if (i+j+1) isn't even.
+                            else{
+                               out += "&nbsp";
+                            }
+                    }
+
+                    //Adds a break line after each iteration of the j-loop (or each completion of the i-loop)
+                    out += "<br>";   
+                }
+
+                //Returns output
+                return out;
+            }
+
+            //Cals function that solves 2.1
+            triangle();
+
+            //Calls function that solves 2.2
+            fizz();
+
+            //Stores output of grid into element with id '8by8', solving size=8 for 2.3
+            document.getElementById("8by8").innerHTML = grid(8);
+
+            //Stores output of grid into element with id '14by14', solving size=14 for 2.3
+            document.getElementById("14by14").innerHTML = grid(14);
+
+        //Ends script block
+        </script>
+    <!-- Ends block of document info -->
+    </body>
+<!-- Ends block of html code -->
+</html>

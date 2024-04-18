@@ -1,0 +1,55 @@
+<!--
+Program Name: EECS 468 Assignment 1
+Description: Hello World demo using html and javascript
+Inputs: Mouse click
+Outputs: Browser windo containing two buttons
+Author: Henry Michael Hoopes
+KU ID: 3037626
+Creation Date: 1/20/24
+-->
+<!--Tells Browser what the document type is-->
+<!DOCTYPE html>
+<!--Starts the header section-->
+<head>
+    <!--Sets tab name to Hello World!-->
+    <title>Hello World!</title>
+    <!--Starts the style/css section-->
+    <style>
+        /*The hide id definition sets all elements with the id "hide" to not display by default*/
+        #hide{
+            display: none;
+        }
+    /*Ends css section*/
+    </style>
+<!--Ends header section-->
+</head>
+<!--Starts body section-->
+<body>
+    <!--Creates button that calls test1() function when clicked, with text indicating what button it is-->
+    <button type="button" onclick="test1()">Test 1 for Hello World!</button>
+    <!--Creates a div wrapper to hide the hello world text for test 2 in-->
+    <div id="hide">
+        <!--The following 4 lines of code style the Hello World text for test 2-->
+        <br>
+        Hello
+        <br><br>
+        World!
+    </div>
+    <!--Creates line break between buttons-->
+    <br>
+    <!--Creates button that calls test2() function when clicked, with text indicating what button it is-->
+    <button type="button" onclick="test2()">Test 2 for Hello World!</button>
+    <!--Begins javascript section-->
+    <script>
+        //creates function test1() that will create an alert with the message "Hello World!"
+        function test1(){
+            alert("Hello World!");
+        }
+        //creates function test2() that will set the display of the element with id "hide" to display, which will reveal it to the user
+        function test2(){
+            document.getElementById("hide").style.display = "block";
+        }
+    //Ends javascript section
+    </script>
+<!--Ends body section-->
+</body>

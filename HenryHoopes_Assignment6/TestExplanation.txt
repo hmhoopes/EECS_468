@@ -1,0 +1,24 @@
+Testing:
+    For my testing, I created an html file (which is included within this folder), that 
+    I used to test the GET/PUT/DELETE/MKCOL functions of my file server. I would start the
+    server on REPLIT, then use this html file and fetch requests to send HTTP GET/PUT/DELETE/MKCOL 
+    requests. For a more detailed explanation, please see the file (index.html) which 
+    has comments explaining the functionality. 
+
+    I also used curl -X METHOD "url" to test the functionality. So, for GET, I would run
+    curl "replit_url" in my command line; for PUT, I would run curl -X PUT -d message "replit_url";
+    for DELETE, I would run curl -X DELETE "replit_url"; for MKCOL, I would run 
+    curl -X MKCOL "replit_url/new_directory".
+
+    After using curl / my html and JS code to make HTTP requests, I would check the directory of 
+    my replit to check if the changes corresponding to the HTTP requests were made.
+
+Challenges:
+    While testing my server, I started by hosting it directly from my computer. However, there
+    was Cross Orgin Resource Sharing (CORS) difficulties. I wasn't able to make requests from my
+    html file. In order to fix this, I had to add Access-Control-Allow-(Origin/Methods/Headers) to 
+    my response from the server. I also had to add a method to handle OPTIONS requests which are 
+    automatically sent. 
+
+    The CORS problems went away when I switched to REPLIT, so I deleted the code from my submission.
+

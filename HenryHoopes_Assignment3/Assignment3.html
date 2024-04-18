@@ -1,0 +1,78 @@
+<!-- Declares document type as html -->
+<!DOCTYPE html>
+<!-- Begins html code block -->
+<html>
+    <!-- Begins block to contain document's info -->
+    <body>
+        <!-- The following 17 lines use p tags to structure the solutions to each part of problem 2 -->
+        <p>2a] content of group1: </p>
+        <p id="a"></p>
+        <p>2b] content of group2: </p>
+        <p id="b"></p>
+        <p>2c] result of group1.has(5): </p>
+        <p id="c"></p>
+        <p>2d] result of group2.has(3): </p>
+        <p id="d"></p>
+        <p>2e] result of group1.union(group2): </p>
+        <p id="e"></p>
+        <p>2f] result of group1.intersection(group2): </p>
+        <p id="f"></p>
+        <p>2g] result of group1.difference(group2): </p>
+        <p id="g"></p>
+        <p>2h] result of group1.delete(1): </p>
+        <p id="h"></p>
+        <p>2i] result of group2.delete(1): </p>
+        <p id="i"></p>
+        
+        <!-- Includes group prototype definition -->
+        <script src="Group.js"></script>
+        <!-- Includes JS code required to solve problem 2 -->
+        <script>
+            //the following 8 lines define two group objects and store [1,2,3] in the first and [2,3,5] in the second.
+            let group1 = new Group();
+            let group2 = new Group();
+            group1.add(1);
+            group1.add(2);
+            group1.add(3);
+            group2.add(2);
+            group2.add(3);
+            group2.add(5);
+            group2.add(2);
+            
+            //stores the array of group1 in p with id 'a'
+            document.getElementById("a").innerHTML = group1.arr;
+
+            //stores the array of group2 in p with id 'b'
+            document.getElementById("b").innerHTML = group2.arr;
+
+            //stores output of group1.has(5) [False] in p with id 'c'
+            document.getElementById("c").innerHTML = group1.has(5);
+
+            //stores output of group2.has(5) [True] in p with id 'd'
+            document.getElementById("d").innerHTML = group2.has(3);
+
+            //stores the array of group1.union(group2) in p with id 'e'
+            document.getElementById("e").innerHTML = group1.union(group2).arr;
+
+            //stores the array of group1.intersection(group2) in p with id 'f'
+            document.getElementById("f").innerHTML = group1.intersection(group2).arr;
+
+            //stores the array of group1.difference(group2) in p with id 'g'
+            document.getElementById("g").innerHTML = group1.difference(group2).arr;
+
+            //the following two lines perform delete on group1 for 1 and group2 for 1
+            group1.delete(1);
+            group2.delete(1);
+
+            //stores the array of group1 after delete in p with id 'h'
+            document.getElementById("h").innerHTML = group1.arr;
+
+            //stores the array of group2 after delete in p with id 'i'
+            document.getElementById("i").innerHTML = group2.arr;
+
+        //ends JS code inclusion
+        </script>
+    <!-- Ends block containing document info -->
+    </body>
+<!-- Ends html code block -->
+</html>

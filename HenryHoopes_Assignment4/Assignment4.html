@@ -1,0 +1,104 @@
+<!-- tells browser to interpret as html -->
+<!DOCTYPE html>
+<!-- begins block containing html code -->
+<html>
+    <!-- begins block containing info on document -->
+    <head>
+        <!-- Sets title to 'Hoopes' Go KU! Page' -->
+        <title>Hoopes' Go KU! Page</title>
+    <!-- ends block containing info on document -->
+    </head>
+    <!-- begins block containing document info -->
+    <body>
+        <!-- begins tab-panel section -->
+        <tab-panel>
+            <!-- Creates div with tabname 'Rock' with text 'Rock ...' -->
+            <div data-tabname="Rock">Rock ...</div>
+            <!-- Creates div with tabname 'Chalk' with text 'Rock Chalk ...' -->
+            <div data-tabname="Chalk">Rock Chalk ...</div>
+            <!-- Creates div with tabname 'Hawk' with text 'Rock Chalk Jayhawk ...' -->
+            <div data-tabname="Hawk">Rock Chalk Jayhawk ...</div>
+            <!-- Creates div with tabname 'Go KU!' with text 'Rock Chalk Jayhawk - Go KU!' -->
+            <div data-tabname="Go KU!">Rock Chalk Jayhawk - Go KU!</div>
+        <!-- ends tab-panel section -->
+        </tab-panel>
+
+        <!-- begins code block containing JS code -->
+        <script>
+            //creates global variable storing the id of tab to be displayed
+            let clicked = "Rock";
+
+            //creates function checkNode(node) which returns if the node has a dataset (checks if has attribute data-tabname)
+            function checkNode(node){
+                //return if node attribute dataset is undefined
+                return node.dataset != undefined;
+            }
+
+            //creates function asTabs that
+            function asTabs(node) {
+                //iterates for every child node of node (tabpanel element) from childNodes.length - 1 to 0
+                for (let i = node.childNodes.length - 1; i >= 0 ; i--){
+                    //stores the childNodes[i] element in var thisnode
+                    let thisnode = node.childNodes[i];
+                    //if the element doesn't have dataset attribute, skip to next iteration of loop
+                    if (!checkNode(thisnode)){continue;}
+
+                    //stores the attribute dataset.tabname in var id
+                    let id = thisnode.dataset.tabname;  
+                    //creates new button element
+                    let button = document.createElement('BUTTON');
+                    //sets the id of this new button to the current element's attribute dataset.tabname
+                    button.setAttribute('id', id);
+                    //sets the text of the button to the current element's attribute dataset.tabname
+                    button.innerHTML = id;
+                    //adds this button element as the first element of body section
+                    document.body.prepend(button);
+
+                    //adds an eventListener that waits till the button is clicked on, and then runs the following
+                    button.addEventListener("click", event=> {
+                        //sets the global var clicked to the button that was clicked on's id
+                        clicked = button.id;
+                        //calls text_change with the tabpanel node
+                        text_change(node);
+                    });
+                }
+                //calls text_change function to start the webpage off in the correct format before any button is clicked
+                text_change(node);
+            }
+
+            //creates text_change function that sets all but one of div's to be hidden and changes button's text color
+            function text_change(node){
+                //iterates for every child node of node(tabpanel element) from 0 to childNodes.length - 1
+                for (let i = 0; i < node.childNodes.length; i++){
+                    //stores childNodes[i] in div_node
+                    let div_node = node.childNodes[i];
+                    //if the current element doesn't have dataset attribute, skip to next iteration of loop
+                    if (!checkNode(div_node)){continue;}
+                    //store data-tabname attribute of current element in id
+                    let id = div_node.dataset.tabname;  
+
+                    //if clicked isn't equivalent to the current element's tabname, run the following
+                    if(id != clicked){
+                        //set the current element to be hidden
+                        div_node.style.display = "none";
+                        //set the button corresponding to the current element to have blue test
+                        document.getElementById(id).style.color = "blue";
+                    }
+                    //if clicked is equivalent to the current element's tabname, run the following
+                    else{
+                        //set the current element to be displayed
+                        div_node.style.display = "block";
+                        //set the button corresponding to the current element to have red text
+                        document.getElementById(id).style.color = "red";
+                    }
+                }
+            }
+            
+            //call asTabs function with tab-panel element
+            asTabs(document.querySelector("tab-panel"));
+        //ends JS code block
+        </script>
+    <!-- ends block containing document info -->
+    </body>
+<!-- ends block containing html code -->
+</html>

@@ -1,0 +1,116 @@
+<!--
+Program Name: EECS 468 Assignment 6
+Description: This is an html file with JS code that I used to test the functionality of my file server. 
+	It has buttons and input forms that are used to make fetch requests to the server
+Inputs: user input text in textboxes and clicks on buttons
+Outputs: displays result of operations
+Full Name: Henry Michael Hoopes
+Collaborators: While on replit, there was an autocomplete functionality that kept trying to complete
+	my code. Most of the time, it didn't know what it was doing. I only used it to complete comments, 
+	but I thought it worthy to note here.
+Creation: 03/25/2024
+Link to REPLIT: https://replit.com/join/atgikkmzle-hmhoopes 
+-->
+<!-- tells browser to interpret as html -->
+<!Doctype html>
+<!--begins block containing info on doc -->
+<head>
+		<!-- sets tab to display 'notes' -->
+		<title>Notes</title>
+<!-- ends block containing info on doc-->
+</head>
+<!-- begins block containing doc info-->
+<body>
+		<!-- Labels to following input 'File Path' -->
+		<label>File Path: </label>
+		<!--Creates input text with id path and default value notes.txt -->
+		<input type="text" id="path" value="notes.txt">
+		<!-- creates button that calls create() when clicked -->
+		<button onclick="create()">Create new directory</button>
+		<!-- creates button that calls destroy() when clicked -->
+		<button onclick="destroy()">Delete file/directory</button>
+		<!-- create two newlines -->
+		<br><br>
+		<!-- creates textbox -->
+		<textarea></textarea>
+		<!-- creates button that calls submit() when clicked -->
+		<button onclick="Submit()">Save</button>
+
+		<!-- begins block containing JS code-->
+		<script>
+				//defines create() function that creates directories
+				function create(){
+						//gets form DOM element
+						let form = document.querySelector("input");
+						//stores value of form in path
+						let path = form.value;
+						//calls fetch request to path with method MKCOL
+						fetch(path, {method: "MKCOL"});
+				}
+
+				//defines destroy() function that deletes files/directories
+				function destroy(){
+						//gets form DOM element
+						let form = document.querySelector("input");
+						//stores value of form in path
+						let path = form.value;
+						//calls fetch request to path with method DELETE
+						fetch(path, {method: "DELETE"});
+				}
+
+				//defines load() function that retrieves file
+				function load(){
+						//gets form DOM element
+						let form = document.querySelector("input");
+						//stores value of form in path
+						let path = form.value;
+						//gets textbox DOM element
+						let textarea = document.querySelector("textarea");
+						//if the last character of path isn't a slash, add one
+						if (path.charAt(path.length - 1) != "/"){path += "/";}
+						//if the extension of path isn't txt, append notes.txt to it
+						if (path.slice(-4,-1) != "txt"){path += "notes.txt";}	
+						//calls fetch request to path with method GET
+						fetch(path)
+						//if request is successful, call response.text()
+						.then(response => response.text())
+						//if response.text() resolves, set textbox to display result
+						.then(text => textarea.value = text)
+						//if any of these promises rejects, run the following
+						.catch(reject =>{
+								//store 'Note found' in textbox
+								textarea.value = "Notes.txt Not Found!"
+						});
+				}
+
+				//defines Submit() function that saves text to file
+				function Submit(){
+						//gets form DOM element
+						let form = document.querySelector("input");
+						//stores value of form in path
+						let path = form.value;
+						//gets textbox DOM element
+						let textarea = document.querySelector("textarea");
+						//if the last character of path isn't a slash, add one
+						if (path.charAt(path.length - 1) != "/"){path += "/";}
+						//if the extension of path isn't txt, append notes.txt to it
+						if (path.slice(-4,-1) != "txt"){path += "notes.txt";}	
+						//calls fetch to path with PUT method, plain text type, and textbox's value as body
+						fetch(path, {
+								method: "PUT",
+								headers: {
+										'Content-Type': 'text/plain'
+								},
+								body: textarea.value 
+						//if request is successful, log response status
+						}).then(response => {
+								console.log("Wrote but recieved", response.status);
+						});
+				}
+
+				//add listener that calls load() when page fully loads
+				document.addEventListener('DOMContentLoaded', function() {load();});
+		//ends block containing JS code
+		</script>
+<!-- ends block containing doc info -->
+</body>

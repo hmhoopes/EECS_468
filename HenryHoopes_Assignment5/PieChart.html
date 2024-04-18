@@ -1,0 +1,155 @@
+<!--
+    Program Name: EECS 468 Assignment 5
+    Description: Uses html and JS to draw and label two pie charts
+    Inputs: None
+    Outputs: Two pie charts
+    Author: Henry Michael Hoopes
+    Date: 03/07/2024
+-->
+
+<!-- Tells browser to interpret as html code -->
+<!DOCTYPE html>
+<!-- Begins block containing html code -->
+<html>
+    <!-- Begins block containing info on the document -->
+    <head>
+        <style>
+        </style>
+
+    <!-- Ends block containing info on document -->
+    </head>
+
+    <!-- Begins block containing document info -->
+    <body>
+        <!-- Labels the first pie chart as for the first dataset -->
+        <p>Data Set 1</p>
+        <!-- Creates canvas with id graph1 -->
+        <canvas width="300" height="300" id="graph1"></canvas>
+        <!-- Labels the second pie chart as for the second dataset -->
+        <p>Data Set 2</p>
+        <!-- Creates canvas with id graph2 -->
+        <canvas width="300" height="300" id="graph2"></canvas>
+
+        <!-- Begins JS code block -->
+        <script>
+            //defines a function that will make a pie chart when given a dataset, total, context, width, height, and radius
+            function makePie(dataset, total, cx, width, height, radius){
+
+                //set the starting angle to (-pi/2), which is top of circle in JS
+                let currAngle = -.5*Math.PI;
+
+                //runs for loop for each element of dataset
+                //this for loop draws the segements for each set of data
+                for(let data of dataset){
+                    //calculates what percentage of the total count this data's count represents, then multiplies it by 
+                    //total radians in circle (2pi) to get corresponding angle
+                    let sliceAngle = (data.count/total) * 2*Math.PI;
+
+                    //starts path of context
+                    cx.beginPath();
+                    //draws arc with angle corresponding to our data's count, starting at currAngle, centered at middle of canvas with our radius
+                    cx.arc(width/2, height/2, radius, currAngle, currAngle + sliceAngle);
+                    //increase currAngle by data's corresponding angle
+                    currAngle += sliceAngle;
+                    //draws line from end of arc to center of circle
+                    cx.lineTo(width/2, height/2);
+                    //the next two lines fills the shape with data's corresponding color
+                    cx.fillStyle = data.color;
+                    cx.fill();
+                }
+                //the next three lines draw an outline of the pie chart's shape
+                cx.beginPath();
+                cx.arc(width/2, height/2, radius, 0, 2*Math.PI);
+                cx.stroke();
+
+                //this line resets the currAngle to the top of the circle
+                currAngle = -.5*Math.PI;
+                //runs for loop for each element of dataset
+                //this for loop draws the names for each set of data, and must be run after all colors have been 
+                //drawn to ensure the labels can be read
+                for (let data of dataset){
+                    //sets corresponding angle for data
+                    let sliceAngle = (data.count/total) * 2*Math.PI;
+                    //sets text's angle to the middle of this data's pie chart segement
+                    let textangle = currAngle + sliceAngle * .5;
+                    //increases currAngle by data's angle
+                    currAngle += sliceAngle;
+                    
+                    //sets font for label
+                    cx.font = '14px Georgia';
+                    //sets color for label
+                    cx.fillStyle = 'black';
+                    //stores x position of text. We use Math.cos(textangle) to get x value of unit circle at textangle, then scale it by radius
+                    //to match radius of circle, and then shift that value from around the origin (0,0) to around the circle's center (width/2, height/2)
+                    x = Math.cos(textangle) * radius + width/2;
+                    //store y position of text, using the same method as above.
+                    y = Math.sin(textangle) * radius + height/2;
+                    //begins path
+                    cx.beginPath(); 
+                    //starts line at center of circle
+                    cx.moveTo(width/2, height/2);
+                    //draws line to label
+                    cx.lineTo(x, y);
+                    //strokes the line stored in context
+                    cx.stroke();
+                    //draws label at calculated location x,y
+                    cx.fillText(data.name, x, y);
+                }
+            } 
+
+            //the following 8 lines define the dataset1 array containing data objects with count, name, and color
+            dataset1 = [
+                {name: 'Very Happy', count: 63, color: 'lightblue'},
+                {name: 'Happy', count: 104, color: 'lightgreen'},
+                {name: 'Neutral', count: 87, color: 'lightgrey'},
+                {name: 'Unhappy', count: 51, color: 'orange'},
+                {name: 'Very Unhappy', count: 26, color: 'red'},
+                {name: 'No Comment  ', count: 18, color: 'white'}
+            ];
+            //uses built in reduce function to calculate total of all data objects count attribute
+            total1 = dataset1.reduce((sum, {count}) => {return sum+count}, 0);
+            
+            //the next 2 lines store canvas object for canvas with id graph1 in canvas var, and create/store a corresponding context in 2d
+            let canvas = document.getElementById("graph1");
+            let cx = canvas.getContext("2d");
+
+            //the next 2 lines store width and height for first pie chart
+            let width1 = canvas.width;
+            let height1 = canvas.height;
+
+            //sets radius of our first pie chart, scaling so text fits on screen
+            let radius = (width1 / 2) * .7;
+            
+            //creates piechart for first dataset
+            makePie(dataset1, total1, cx, width1, height1, radius);
+
+            //the following 6 lines define the dataset1 array containing data objects with count, name, and color
+            dataset2 = [
+                {name: 'Satisfied', count: 213, color: 'lightblue'},
+                {name: 'Neutral', count: 927, color: 'lightgrey'},
+                {name: 'Unsatisfied', count: 463, color: 'red'},
+                {name: 'No Comment  ', count: 510, color: 'white'}
+            ];
+            //uses built in reduce function to calculate total of all data objects count attribute
+            total2 = dataset2.reduce((sum, {count}) => {return sum+count}, 0);
+            
+            //the next 2 lines store canvas object for canvas with id graph2 in canvas var, and create/store a corresponding context in 2d
+            canvas = document.getElementById("graph2");
+            cx = canvas.getContext("2d");
+
+            //the next 2 lines store width and height for second pie chart
+            let width2 = canvas.width;
+            let height2 = canvas.height;
+
+            //sets radius of our second pie chart, scaling so text fits on screen
+            radius = (width1 / 2) * .7;
+
+            //creates piechar for second dataset
+            makePie(dataset2, total2, cx, width2, height2, radius);
+
+        //ends JS code block
+        </script>
+    <!-- Ends block containing document info -->
+    </body>
+<!-- Ends block containing html code -->
+</html>
