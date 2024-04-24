@@ -1,3 +1,12 @@
+{-
+Program Name: EECS 468 Assignment 9 Nim Game
+Description: This contains all functions necessary to implement the game of nim using haskell
+Inputs: User input through IO() functions provided by haskell prelude
+Outputs Output displayed using IO() functions provided by haskell prelude
+Author: Henry Michael Hoopes
+Creation Date: 4/22/2024
+-}
+
 --Defines board, alist of ints, as a datatype
 type Board = [Int]
 
@@ -77,22 +86,36 @@ playMove board row strs = [val | n <- [1..5], let val | n==row = board!!(n-1) - 
 --odd number rounds mean player 1's turn, even number mean play 2's turn
 --defines function that, given board and player round, plays game of nim using IO
 play :: Board -> Int -> IO()
+--when given a board and a round turn 
 play board n = do
+    --display board
     display board
+    --if the board represents finished game, do the following
     if (isFinished board) then
+     --display the other player as winner
      putStr("Player " ++ (show (((n) `mod` 2)+1)) ++ " wins!\n")
+    --if game isn't finished, do the following
     else
      do
+        --get move player wants
         move <- getMove board n
+        --if the move is invalid, then do the following
         if (head (head move) == 'E') then
          do
+            --display move as invalid
             putStr((head move) ++ "\n")
+            --play this round again so player can enter correct move
             play board n
+        --if move is valid, then do the following
         else
          do
+            --the following two lines convert values stored in move to integer values
             let row = read (move!!0) :: Int
             let strs = read (move!!1) :: Int
+            --play next round with the result of playing move on current board
             play (playMove board row strs) (n+1)
 
+--defines function nim that interacts with the user using io
 nim :: IO()
+--nim always calls play function with initial board an starting round = 1
 nim = play initial 1

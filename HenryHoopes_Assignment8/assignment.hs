@@ -1,3 +1,13 @@
+{-
+Program Name: EECS 468 Assignment 8 Expression Parse
+Brief Description: This file contains all the necessary code/functions for parsing a mathematical expression and 
+                    returning the result. To use, call parse function with expression in string form as argument
+Inputs: Math expression in string form
+Outputs: Either value in string form or error statement indicating why expression couldn't be evaluated
+Author: Henry Michael Hoopes
+Creation Date: 04/15/2024
+-}
+
 ---------------------------------------------------------------------------------------------------
 --      Helper Functions
 
@@ -247,8 +257,3 @@ parse str
  where 
   --set output to result of evaluate when given postfix list of strings, which is made by splitting str and passing it to convert
   out = (evaluate (convert (split str)) ["bottom of stack"])
-
-{-
-TODO:
-3) test rigorously
--}
